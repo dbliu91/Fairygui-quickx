@@ -1,0 +1,21 @@
+-----@class ActionMovieClip
+--local M = class("ActionMovieClip", function(...)
+--    return cc.Animate:create(...)
+--end)
+--
+--function M:getCurrentFrame()
+--
+--end
+--
+--function M:setCurrentFrame(value)
+--end
+--
+--function M:setPlaySettings(start_frame,end_frame,times,endAt,completeCallback)
+--
+--end
+--
+--function M:setAnimation(animation,repeatDelay)
+--    --self:setAnimation(animation)
+--end
+--
+--return M
