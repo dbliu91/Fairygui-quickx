@@ -23,11 +23,53 @@ CONFIG_SCREEN_WIDTH  = 1136
 CONFIG_SCREEN_HEIGHT = 640
 ```
 
-2. 修改MyApp.lua,启动对应的场景
+2. 修改MyApp.lua,启动demo所在的的场景
 
 ```lua
-function MyApp.lua,启动对应的场景:run()
+function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
     self:enterScene("MenuScene")
 end
+```
+
+新建目录的对应结构如下
+
+```
+├─frameworks
+│  └─runtime-src
+│      ├─Classes
+│      ├─proj.android
+│      ├─proj.ios_mac
+│      └─proj.win32
+├─res
+│  ├─fonts
+│  ├─icons
+│  ├─res
+│  └─UI
+└─src
+    ├─app
+    │  ├─fui
+    │  │  ├─action
+    │  │  ├─event
+    │  │  ├─gears
+    │  │  ├─node
+    │  │  ├─text
+    │  │  ├─treeview
+    │  │  └─utils
+    │  └─scenes
+    ├─cocos
+    │  ├─cocos2d
+    │  ├─cocosbuilder
+    │  ├─cocostudio
+    │  ├─controller
+    │  ├─extension
+    │  ├─network
+    │  ├─spine
+    │  └─ui
+    └─framework
+        ├─cc
+        │  └─utils
+        ├─platform
+        └─protobuf
+
 ```
