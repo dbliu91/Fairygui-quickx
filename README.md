@@ -32,20 +32,28 @@
 - 项目目前对应的Fairygui编辑器版本是3.6.1 http://www.fairygui.com/product/release_notes.html
 - 项目是基于Cocos2d-Lua 社区版3.6.5  http://cocos2d-lua.org/download/index.md 
 
-- 第一步:参照 http://cocos2d-lua.org/#快速安装指南
-    - 下载 Quick-Cocos2dx-Community 3.6.5版本
-    - 解压后,如果是Windows系统：双击setup_win.bat即可。
-    - Windows: 点击系统在桌面上的 player.exe 快捷方式。
-- 第二步:
-    - 下载`Fairygui-quickx`
-    - 如下图所示导入项目
+### 第一步:参照 http://cocos2d-lua.org/#快速安装指南
 
+- 下载 Quick-Cocos2dx-Community 3.6.5版本
+- 解压后,如果是Windows系统：双击setup_win.bat即可。
+- Windows: 点击系统在桌面上的 player.exe 快捷方式。
+
+### 第二步:
+
+- 下载`Fairygui-quickx`
+- 如下图所示导入项目
 ![](http://static.dbliu.com/fairygui_quickx/Snipaste_2018-07-29_19-24-55.png)
     
     
-其核心的库代码在`src/app/fui`目录下,而对应的测试用例,在`src/app/scenes`目录下.![](http://static.dbliu.com/fairygui_quickx/Snipaste_2018-07-29_17-09-01.png),如果要将fairygui_quickx加入到自己的项目中,只需要将`src/app/fui`目录下的代码拷贝过去即可.
+其核心的库代码在`src/app/fui`目录下,而对应的测试用例,在`src/app/scenes`目录下.
 
+![](http://static.dbliu.com/fairygui_quickx/Snipaste_2018-07-29_17-09-01.png)
 
+如果要将fairygui_quickx加入到自己的项目中,只需要将`src/app/fui`目录下的代码拷贝过去即可.
+
+修改
+
+### 第三布
 
 ## 完成度和已知bug
 
@@ -58,9 +66,10 @@
 7. 帧动画非常简陋,也还有bug,列表的下拉刷新的时候,转圈圈的动画没有播.
 8. 等待......
 
-## 附加文档
+## 附加文档,位于`doc`目录下
 
-1. 参见：一些个代码片段.md
+1. 一些个代码片段.md
+2. Quick-Cocos2dx-Community_3.7.2兼容.md
 
 ## 最后贴一个gif动图
 
