@@ -15,8 +15,6 @@ function M:ctor(owner)
 
     self._owner = owner
 
-    self._owner._displayObject:setTouchEnabled(true)
-
     self._touchListener = self._owner._displayObject:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
 
         --print("cc.NODE_TOUCH_EVENT:", event.name)
@@ -33,6 +31,8 @@ function M:ctor(owner)
             print("not imp", event.name)
         end
     end)
+
+    self._owner._displayObject:setTouchEnabled(true)
 end
 
 function M:doDestory()

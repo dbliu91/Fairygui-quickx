@@ -39,7 +39,7 @@ function M:continueInit()
     self._groot:showModalWait()
 
     ---simulate a asynchronous request
-    performWithDelay(self,function ()
+    self:performWithDelay(function ()
         self._groot:closeModalWait()
     end,3)
 end

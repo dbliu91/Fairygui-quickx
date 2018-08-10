@@ -481,7 +481,7 @@ function M:getActionManager()
 end
 
 function M:PlayRoutine(obj, func, dt)
-    local r = performWithDelay(self._displayObject, function()
+    local r = self._displayObject:performWithDelay(function()
         func(obj)
     end, dt)
     local key = tostring(obj) .. tostring(func)

@@ -129,4 +129,50 @@ end
 
 INT_MAX = 2147483647
 
-require("framework.cc.utils.bit")
+-- require("framework.cc.utils.bit")
+
+
+transition = transition or {}
+
+-- start --
+
+--------------------------------
+-- 在显示对象上循环播放动画，并返回 Action 动作对象。
+-- @function [parent=#transition] playAnimationForever
+-- @param cc.Node target 显示对象
+-- @param cc.Node animation 动作对象
+-- @param number delay 播放前等待的时间
+-- @return table#table ret (return value: table)  动作表格对象
+
+--[[--
+
+在显示对象上循环播放动画，并返回 Action 动作对象。
+
+~~~ lua
+
+local frames = display.newFrames("Walk%04d.png", 1, 20)
+local animation = display.newAnimation(frames, 0.5 / 20) -- 0.5s play 20 frames
+sprite:playAnimationForever(animation)
+
+~~~
+
+]]
+-- end --
+
+function transition.playAnimationForever(target, animation, delay)
+    local animate = cc.Animate:create(animation)
+    local action
+    if type(delay) == "number" and delay > 0 then
+        target:setVisible(false)
+        local sequence = transition.sequence({
+            cc.DelayTime:create(delay),
+            cc.Show:create(),
+            animate,
+        })
+        action = cc.RepeatForever:create(sequence)
+    else
+        action = cc.RepeatForever:create(animate)
+    end
+    target:runAction(action)
+    return action
+end
