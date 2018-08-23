@@ -868,7 +868,7 @@ end
 function M:releaseDisplayLock(token)
     local gearDisplay = self._gears["gearDisplay"]
     if gearDisplay and gearDisplay:getController() then
-        gearDisplay:releaseLock()
+        gearDisplay:releaseLock(token)
         self:checkGearDisplay()
     end
 end
