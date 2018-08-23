@@ -116,6 +116,8 @@ end
 function M:doDestory()
     M.super.doDestory(self)
 
+    GActionManager.inst():remove(self)
+
     self:removeFromParent()
 
     if self._displayObject then
@@ -128,6 +130,8 @@ function M:doDestory()
         self._displayObject = nil
 
     end
+
+
 end
 
 function M.create(C)
@@ -958,10 +962,12 @@ end
 
 function M:onEnter()
     self:dispatchEvent(T.UIEventType.Enter)
+    GActionManager.inst():resume(self)
 end
 
 function M:onExit()
     self:dispatchEvent(T.UIEventType.Exit)
+    GActionManager.inst():pause(self)
 end
 
 function M:onCleanup()

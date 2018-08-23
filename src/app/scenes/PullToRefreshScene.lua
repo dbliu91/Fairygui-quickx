@@ -84,7 +84,7 @@ function M:onPullUpToRefresh(context)
 
         --Refresh completed
         footer:getController("c1"):setSelectedIndex(1);
-        self._list2:getScrollPane():lockHeader(0)
+        self._list2:getScrollPane():lockFooter(0)
     end)
 end
 

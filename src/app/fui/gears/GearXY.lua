@@ -47,7 +47,7 @@ function M:apply()
         if self._owner:displayObject():getActionByTag(T.ActionTag.GEAR_XY_ACTION) ~= nil then
             if self._tweenTarget.x ~= gv.x or self._tweenTarget.y ~= gv.y then
                 --self._owner:displayObject():stopActionByTag(T.ActionTag.GEAR_XY_ACTION)
-                UIRoot:getActionManager():removeActionByTag(T.ActionTag.GEAR_XY_ACTION, self._owner)
+                GActionManager.inst():removeActionByTag(T.ActionTag.GEAR_XY_ACTION, self._owner)
                 self:onTweenComplete()
             else
                 return
@@ -95,7 +95,7 @@ function M:apply()
             end
 
             seq:setTag(T.ActionTag.GEAR_XY_ACTION)
-            UIRoot:getActionManager():addAction(seq, self._owner, false)
+            GActionManager.inst():addAction(seq, self._owner, false)
             --]]
         end
     else

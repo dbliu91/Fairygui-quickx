@@ -43,7 +43,7 @@ function M:onTouchBegin(context)
         self.touchId = evt:getTouchId()
 
         --self._button:displayObject():stopActionByTag(1)
-        UIRoot:getActionManager():removeActionByTag(1,self._button)
+        GActionManager.inst():removeActionByTag(1,self._button)
 
         local pt = UIRoot:globalToLocal(evt:getPosition())
         local bx = pt.x;
@@ -181,7 +181,7 @@ function M:onTouchEnd(context)
             self._center:setPosition(self._InitX - self._center:getWidth() / 2, self._InitY - self._center:getHeight() / 2);
         end
 
-        UIRoot:getActionManager():addAction(action,self._button,false)
+        GActionManager.inst():addAction(action,self._button,false)
         --]]
 
         self:dispatchEvent(M.END)

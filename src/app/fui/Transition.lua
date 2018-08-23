@@ -467,7 +467,7 @@ end
 
 function M:checkAllComplete()
     if self._playing == true and self._totalTasks == 0 then
-        if self._totalTasks < 0 then
+        if self._totalTimes < 0 then
             self:internalPlay(0)
         else
             self._totalTimes = self._totalTimes - 1
@@ -973,7 +973,7 @@ function M:startTween(item, delay, startValue, endValue)
     --]]
     ---[[
     mainAction:setTag(T.ActionTag.TRANSITION_ACTION)
-    UIRoot:getActionManager():addAction(mainAction, self._owner, false)
+    GActionManager.inst():addAction(mainAction, self._owner, false)
     self._totalTasks = self._totalTasks + 1
     item.completed = false
     --]]

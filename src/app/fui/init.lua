@@ -19,6 +19,9 @@ UIPackage = require("app.fui.UIPackage")
 ---@type DragDropManager
 DragDropManager = require("app.fui.DragDropManager")
 
+---@type GActionManager
+GActionManager = require("app.fui.action.ActionManager")
+
 --PublicUtils = require("app.publicUtil.PublicUtils")
 --require("app.publicUtil.QCoroutine")
 

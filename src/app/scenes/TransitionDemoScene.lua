@@ -109,7 +109,7 @@ function M:playNum()
     action.completeAction=function ()
     end
 
-    UIRoot:getActionManager():addAction(action, self, false)
+    GActionManager.inst():addAction(action, self, false)
 end
 
 return M

@@ -65,7 +65,7 @@ function M:apply()
     if self.tween == true and UIPackage._constructing == 0 and disableAllTweenEffect == false then
         if self._owner:displayObject():getActionByTag(T.ActionTag.GEAR_LOOK_ACTION) ~= nil then
             if self._tweenTarget.x ~= gv.alpha or self._tweenTarget.y ~= gv.rotation then
-                UIRoot:getActionManager():removeActionByTag(T.ActionTag.GEAR_LOOK_ACTION, self._owner)
+                GActionManager.inst():removeActionByTag(T.ActionTag.GEAR_LOOK_ACTION, self._owner)
                 self:onTweenComplete()
             else
                 return
@@ -116,7 +116,7 @@ function M:apply()
             end
 
             seq:setTag(T.ActionTag.GEAR_LOOK_ACTION)
-            UIRoot:getActionManager():addAction(seq, self._owner, false)
+            GActionManager.inst():addAction(seq, self._owner, false)
             --]]
         end
     else

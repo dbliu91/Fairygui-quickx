@@ -71,7 +71,7 @@ function M:apply()
                     or self._tweenTarget.scale_x ~= gv.scale_x
                     or self._tweenTarget.scale_y ~= gv.scale_y
             then
-                UIRoot:getActionManager():removeActionByTag(T.ActionTag.GEAR_SIZE_ACTION, self._owner)
+                GActionManager.inst():removeActionByTag(T.ActionTag.GEAR_SIZE_ACTION, self._owner)
                 self:onTweenComplete()
             else
                 return
@@ -137,7 +137,7 @@ function M:apply()
             end
 
             seq:setTag(T.ActionTag.GEAR_SIZE_ACTION)
-            UIRoot:getActionManager():addAction(seq, self._owner, false)
+            GActionManager.inst():addAction(seq, self._owner, false)
             --]]
 
         end

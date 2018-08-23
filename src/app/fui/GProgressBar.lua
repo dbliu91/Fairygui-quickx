@@ -60,7 +60,7 @@ end
 
 function M:tweenValue(value, duration)
     if self._value ~= value then
-        UIRoot:getActionManager():removeActionByTag(T.ActionTag.PROGRESS_ACTION, self)
+        GActionManager.inst():removeActionByTag(T.ActionTag.PROGRESS_ACTION, self)
 
         local oldValue = self._value
         self._value = value
@@ -77,7 +77,7 @@ function M:tweenValue(value, duration)
 
         action:setTag(T.ActionTag.PROGRESS_ACTION)
 
-        UIRoot:getActionManager():addAction(action, self, false)
+        GActionManager.inst():addAction(action, self, false)
 
     end
 end

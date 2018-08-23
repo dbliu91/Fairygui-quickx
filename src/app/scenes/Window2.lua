@@ -33,7 +33,7 @@ function M:doShowAnimation()
         self:onShown()
     end
 
-    UIRoot:getActionManager():addAction(action, self, false)
+    GActionManager.inst():addAction(action, self, false)
 end
 
 function M:doHideAnimation()
@@ -57,7 +57,7 @@ function M:doHideAnimation()
         self:hideImmediately()
     end
 
-    UIRoot:getActionManager():addAction(action, self, false)
+    GActionManager.inst():addAction(action, self, false)
 
 end
 

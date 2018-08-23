@@ -3,8 +3,6 @@ local GGraph = require("app.fui.GGraph")
 
 local GCoroutine = require("app.fui.utils.GCoroutine")
 
-local ActionManager = require("app.fui.action.ActionManager")
-
 local InputProcessor = require("app.fui.event.InputProcessor")
 
 ---@class GRoot:GComponent
@@ -59,8 +57,6 @@ function M:init(scene, zorder)
 
     --初始化一个协程，用于定时器
     self._coroutine = GCoroutine.new()
-
-    self._actionManager = ActionManager.new()
 
     self._displayObject:scheduleUpdateWithPriorityLua(handler(self, self.coroutineUpdate), cc.PRIORITY_SYSTEM)
 
@@ -468,16 +464,12 @@ end
 
 function M:coroutineUpdate(dt)
     self._coroutine:updateCoroutine(dt)
-    self._actionManager:update(dt)
+    GActionManager.inst():update(dt)
 end
 
 ---@return GCoroutine
 function M:getCoroutine()
     return self._coroutine
-end
-
-function M:getActionManager()
-    return self._actionManager
 end
 
 function M:PlayRoutine(obj, func, dt)

@@ -1,9 +1,17 @@
 local ActionHashElement = require("app.fui.action.ActionHashElement")
 
----@class ActionManager
+---@class GActionManager
 ---@field _currentTarget ActionHashElement
 ---@field _currentTargetSalvaged boolean
-local M = class("ActionManager")
+local M = class("GActionManager")
+
+local __inst
+M.inst = function ()
+    if not __inst then
+        __inst = M.new()
+    end
+    return __inst
+end
 
 function M:ctor()
     self._targets = {}
@@ -11,33 +19,39 @@ function M:ctor()
     self._currentTargetSalvaged = false
 end
 
-function M:doDdoDestory()
-    self:removeAllActions()
+function M:resume(target)
+    target.__is_resume = true
 end
 
+function M:pause(target)
+    target.__is_resume = false
+end
 
 function M:update(dt)
     if #self._targets==0 then
         return
     end
     for i, v in ipairs(self._targets) do
-        self._currentTarget = v
-        self._currentTargetSalvaged = false
+        if v.target.__is_resume == true then
+            self._currentTarget = v
+            self._currentTargetSalvaged = false
 
-        if self._currentTarget.paused == false then
-            for i, action in ipairs(self._currentTarget.actions) do
-                self._currentTarget.currentAction = action
+            if self._currentTarget.paused == false then
+                for i, action in ipairs(self._currentTarget.actions) do
+                    self._currentTarget.currentAction = action
 
-                self._currentTarget.currentActionSalvaged = false
-                self._currentTarget.currentAction:step(dt)
+                    self._currentTarget.currentActionSalvaged = false
+                    self._currentTarget.currentAction:step(dt)
 
-                if self._currentTarget.currentActionSalvaged == true then
-                elseif self._currentTarget.currentAction:isDone() then
-                    self._currentTarget.currentAction:stop()
-                    self:removeAction(self._currentTarget.currentAction)
-                    self._currentTarget.currentAction = nil
+                    if self._currentTarget.currentActionSalvaged == true then
+                    elseif self._currentTarget.currentAction:isDone() then
+                        self._currentTarget.currentAction:stop()
+                        self:removeAction(self._currentTarget.currentAction)
+                        self._currentTarget.currentAction = nil
+                    end
                 end
             end
+
         end
 
     end
@@ -53,6 +67,15 @@ local f = function(tb, target)
         end
     end
     return false
+end
+
+function M:remove(target)
+    local idx = f(self._targets, target)
+    if idx == false then
+        return
+    else
+        table.remove(self._targets,idx)
+    end
 end
 
 function M:removeAction(action)
