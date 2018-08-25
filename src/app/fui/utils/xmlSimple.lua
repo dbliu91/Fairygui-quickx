@@ -75,10 +75,15 @@ function newParser()
         end
     end
 
-    function XmlParser:ParseXmlText(xmlText, is_retry)
+    function XmlParser:ParseXmlText(xmlText, try_to_fix_jiantou_error,visitor)
 
-        if not is_retry then
-            is_retry = false
+        if not try_to_fix_jiantou_error then
+            try_to_fix_jiantou_error = false
+        end
+
+        if visitor then
+            --如果有监听者，开启比较耗性能的《防止字符串中有>符号，导致解析错误》
+            try_to_fix_jiantou_error = true
         end
 
         local stack = {}
@@ -92,7 +97,7 @@ function newParser()
                 break
             end
 
-            if is_retry == true then
+            if try_to_fix_jiantou_error == true then
                 --防止字符串中有>符号，导致解析错误
                 local fix_j = XmlParser:fixParseError(xmlText, ni, j)
                 if fix_j ~= j then
@@ -113,6 +118,7 @@ function newParser()
             local text = string.sub(xmlText, i, ni - 1);
             if not string.find(text, "^%s*$") then
                 local lVal = (top:value() or "") .. self:FromXmlString(text)
+                if visitor and visitor.textHandler then visitor:textHandler(lVal) end
                 stack[#stack]:setValue(lVal)
             end
             if empty == "/" then
@@ -120,39 +126,43 @@ function newParser()
                 local lNode = newNode(label)
                 self:ParseArgs(lNode, xarg)
                 top:addChild(lNode)
+                if visitor and visitor.startElement then visitor:startElement(lNode,stack) end
+                if visitor and visitor.endElement then visitor:endElement(lNode,stack) end
             elseif c == "" then
                 -- start tag
                 local lNode = newNode(label)
                 self:ParseArgs(lNode, xarg)
                 table.insert(stack, lNode)
                 top = lNode
+                if visitor and visitor.startElement then visitor:startElement(lNode,stack) end
             else
                 -- end tag
                 local toclose = table.remove(stack) -- remove top
 
                 top = stack[#stack]
                 if #stack < 1 then
-                    if is_retry==false then
+                    if try_to_fix_jiantou_error ==false then
                         return XmlParser:ParseXmlText(xmlText, true)
                     else
                         error("XmlParser: nothing to close with " .. label)
                     end
                 end
                 if toclose:name() ~= label then
-                    if is_retry==false then
+                    if try_to_fix_jiantou_error ==false then
                         return XmlParser:ParseXmlText(xmlText, true)
                     else
                         error("XmlParser: trying to close " .. toclose:name() .. " with " .. label)
                     end
                 end
                 top:addChild(toclose)
+                if visitor and visitor.endElement then visitor:endElement(toclose,stack) end
             end
             i = j + 1
         end
         local text = string.sub(xmlText, i);
         if #stack > 1 then
             print("XmlParser: unclosed " .. stack[#stack]:name())
-            if is_retry==false then
+            if try_to_fix_jiantou_error ==false then
                 return XmlParser:ParseXmlText(xmlText, true)
             else
                 error("XmlParser: trying to close " .. toclose:name() .. " with " .. label)
