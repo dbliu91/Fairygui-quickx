@@ -754,9 +754,25 @@ end
 ---@param item GObject
 ---@param evt InputEvent
 function M:setSelectionOnEvent(item, evt)
+
+    if iskindof(item,"GButton")==false or self._selectionMode==T.ListSelectionMode.NONE then
+        return;
+    end
+
+    local button = item;
+
+    --TODO add by liu
+    --如果点击的是一个普通的按钮，不处理
+    if button:getButtonModel()==T.ButtonMode.COMMON then
+        return
+    end
+
     self._selectionHandled = true
     local dontChangeLastIndex = false;
-    local button = item;
+
+
+
+
     local index = self:childIndexToItemIndex(self:getChildIndex(item));
 
     if (self._selectionMode == T.ListSelectionMode.SINGLE) then
@@ -993,7 +1009,7 @@ function M:scrollToView(index, ani, setFirst)
             self._parent:getScrollPane():scrollToView(self:transformRect(rect, self._parent), ani, setFirst);
         end
     else
-        local obj = self:getChildAt(cpp_index);
+        local obj = self:getChildAt(cpp_index+1);
         if (self._scrollPane) then
             self._scrollPane:scrollToView(obj, ani, setFirst);
         elseif (self._parent and self._parent:getScrollPane()) then
@@ -1174,7 +1190,7 @@ function M:setNumItems(value)
                 end
             end
         else
-            self:removeChildrenToPool(value, cnt);
+            self:removeChildrenToPool(value+1, cnt);
         end
 
         if (self.itemRenderer) then

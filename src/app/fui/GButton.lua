@@ -139,6 +139,11 @@ function M:setTitleFontSize(value)
     end
 end
 
+---@return ButtonMode
+function M:getButtonModel()
+    return self._mode
+end
+
 ---@param value boolean selected
 function M:setSelected(value)
     if self._mode == T.ButtonMode.COMMON then

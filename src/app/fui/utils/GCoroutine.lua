@@ -15,6 +15,56 @@ function M:PlayRoutine(func)
     return routine
 end
 
+
+function M:PlayRoutineWithNode(node_list_or_condition_func,func,end_func)
+
+    local condition_func
+
+    if type(node_list_or_condition_func) == "table" then
+
+        local list = {}
+        table.insertto(list, node_list_or_condition_func)
+
+        condition_func = function()
+            for i, v in ipairs(list) do
+                if tolua.isnull(v) then
+                    print("检测到空node")
+                    return true
+                end
+            end
+            return false
+        end
+    elseif type(node_list_or_condition_func) == "function" then
+        condition_func = node_list_or_condition_func
+    end
+
+
+    local r = self:PlayRoutine(function ()
+        local r1 = self:PlayRoutine(function() self:WaitCondition(condition_func) end)
+        local r2 = self:PlayRoutine(
+                function()
+                    LTC.try{
+                        func
+                    }
+                end
+        )
+
+        self:WaitRoutinesAny(r1, r2)
+
+        self:RemoveRoutine(r1)
+        self:RemoveRoutine(r2)
+
+        if end_func then
+            LTC.try{
+                end_func
+            }
+        end
+
+    end)
+
+    return r
+end
+
 ---你不resume协程，然后引用也不指向它，自然它会被gc掉
 function M:RemoveAllRoutine()
     self.routines = {}

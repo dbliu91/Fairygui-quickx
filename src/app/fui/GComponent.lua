@@ -231,7 +231,7 @@ function M:removeChildren(beginIndex, endIndex)
     end
 
     for i = beginIndex, endIndex do
-        self:removeChildAt(i)
+        self:removeChildAt(beginIndex)
     end
 end
 
