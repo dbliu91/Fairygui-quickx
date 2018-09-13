@@ -1,4 +1,8 @@
---TODO scale9的置灰做不了。。。
+--TODO
+--[[
+还未实现的功能：
+图片设置为九宫格后，置灰做不了
+--]]
 
 local GObject = require("app.fui.GObject")
 
