@@ -376,21 +376,13 @@ function M:_create(assetPath)
     local fullPath = fileUtil:fullPathForFilename(file)
 
     local b = cc.FileUtils:getInstance():isFileExist(fullPath)
-    local f
+
+    local data_pacakge
     if b then
-        f = io.open(fullPath, "rb")
+        data_pacakge = cc.HelperFunc:getFileData(fullPath)
     end
 
-    if not f then
-        local msg = string.format("FairyGUI: cannot load package from '%s'", fullPath)
-        UiMgr:showToast(msg)
-        return
-    end
-
-    local data = f:read("*a")
-    f:close()
-
-    if "" == data then
+    if not data_pacakge or "" == data_pacakge then
         local msg = string.format("FairyGUI: cannot load package from '%s'", assetPath)
         print(msg)
         return
@@ -406,7 +398,7 @@ function M:_create(assetPath)
     self._assetPath = assetPath;
     self._assetNamePrefix = assetPath .. "@";
 
-    self:_decodeDesc(data)
+    self:_decodeDesc(data_pacakge)
 
     self:_loadPackage()
 end
@@ -458,18 +450,17 @@ function M:_loadPackage()
 
     local fullPath = fileUtil:fullPathForFilename(file)
 
-    local f = io.open(fullPath, "rb")
-    local data = f:read("*a")
-    f:close()
 
-    if data == "" then
+    local data_sprites = cc.HelperFunc:getFileData(fullPath)
+
+    if not data_sprites or data_sprites == "" then
         print(string.format("FairyGUI: cannot load package from '%s'", self._assetNamePrefix))
         return
     end
 
     self._loadingPackage = true
 
-    local lines = string.split(data, "\n")
+    local lines = string.split(data_sprites, "\n")
     local cnt = #lines
 
     for i = 1 + 1, cnt do
@@ -513,18 +504,14 @@ function M:_loadPackage()
     local hitTestDataFilePath_fullPath = fileUtil:fullPathForFilename(hitTestDataFilePath)
     local b = cc.FileUtils:getInstance():isFileExist(hitTestDataFilePath_fullPath)
 
-    local f
+
     if b then
-        f = io.open(hitTestDataFilePath_fullPath, "rb")
-    end
 
-    if b and f then
-        data = f:read("*a")
-        f:close()
+        local data_hitTestData = cc.HelperFunc:getFileData(hitTestDataFilePath_fullPath)
 
-        if data and data ~= "" then
+        if data_hitTestData and data_hitTestData ~= "" then
             local ba = ByteArray.new(ByteArray.ENDIAN_BIG)
-            ba:writeStringBytes(data)
+            ba:writeStringBytes(data_hitTestData)
 
             ba:setPos(1)
 
